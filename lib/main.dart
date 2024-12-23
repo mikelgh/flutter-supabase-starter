@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_auth/features/theme/dark_mode.dart';
-import 'package:supabase_auth/features/theme/light_mode.dart';
+import 'features/theme/dark_mode.dart';
+import 'features/theme/light_mode.dart';
 import 'router/app_router.dart';
 
 void main() {

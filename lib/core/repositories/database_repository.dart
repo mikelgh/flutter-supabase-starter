@@ -15,7 +15,7 @@ class DatabaseRepository {
           .single();
       return UserModel.fromJson(response);
     } catch (e) {
-      print('Error fetching user: $e');
+      // print('Error fetching user: $e');
       return null;
     }
   }
@@ -24,7 +24,7 @@ class DatabaseRepository {
     try {
       await _supabaseClient.from('users').insert(user.toJson());
     } catch (e) {
-      print('Error creating user: $e');
+      // print('Error creating user: $e');
     }
   }
 }

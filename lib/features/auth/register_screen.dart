@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+// ignore: unused_import
+import 'package:go_router/go_router.dart';
 import '../../core/repositories/auth_repository.dart';
 import '../../core/services/supabase_service.dart';
 import '../components/auth_button.dart';
@@ -18,11 +20,24 @@ class SignUpScreen extends ConsumerStatefulWidget {
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  SnackBar floatingSnackBar(String content, backgroundColor) {
+    return SnackBar(
+      content: Text(content),
+      backgroundColor: backgroundColor,
+      behavior: SnackBarBehavior.floating,
+      showCloseIcon: true,
+    );
+  }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _usernameController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -30,11 +45,23 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     final authRepository = AuthRepository(SupabaseService.client);
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
+    final username = _usernameController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
+    if (email.isEmpty ||
+        password.isEmpty ||
+        username.isEmpty ||
+        confirmPassword.isEmpty) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Please fill all fields')));
+      ).showSnackBar(floatingSnackBar('Please fill , all fields', Colors.red));
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(floatingSnackBar('Passwords do , not match', Colors.red));
       return;
     }
 
@@ -45,11 +72,18 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     if (user != null) {
       // Navigate to home screen
-      print('Signed up: ${user.email}');
+      // print('Signed up: ${user.email}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        floatingSnackBar(
+          'Successfully signed up',
+          Theme.of(context).colorScheme.inversePrimary,
+        ),
+      );
+      context.go('/');
     } else {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Invalid credentials')));
+      ).showSnackBar(floatingSnackBar('Invalid credentials', Colors.red));
     }
   }
 
@@ -58,94 +92,120 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              //logo
-              Icon(
-                Icons.app_registration_rounded,
-                size: 100,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
-
-              const SizedBox(height: 15),
-
-              //app name,
-              Text(
-                'R E G I S T E R',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 3,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //logo
+                Icon(
+                  Icons.app_registration_rounded,
+                  size: 100,
                   color: Theme.of(context).colorScheme.inversePrimary,
                 ),
-              ),
 
-              const SizedBox(height: 45),
+                const SizedBox(height: 15),
 
-              // email textfield,
-              MyTextField(
-                hintText: "Email",
-                obscureText: false,
-                controller: _emailController,
-              ),
-
-              const SizedBox(height: 10),
-
-              // passowrd textfield,
-              MyTextField(
-                hintText: "Password",
-                obscureText: true,
-                controller: _passwordController,
-              ),
-
-              const SizedBox(height: 15),
-
-              //forgot password,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Forgot Password ?",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.inversePrimary,
-                    ),
+                //app name,
+                Text(
+                  'R E G I S T E R',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 3,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   ),
-                ],
-              ),
+                ),
 
-              const SizedBox(height: 15),
+                const SizedBox(height: 45),
 
-              //login button,
-              AuthButton(text: "Register", onPressed: _signUp),
+                // username textfield,
+                MyTextField(
+                  hintText: "Username",
+                  obscureText: false,
+                  controller: _usernameController,
+                ),
 
-              const SizedBox(height: 25),
+                const SizedBox(height: 10),
 
-              //don't have an account? Register here,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Already have an account ?",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: widget.onTap,
-                    child: Text(
-                      " Login Here",
+                // email textfield,
+                MyTextField(
+                  hintText: "Email",
+                  obscureText: false,
+                  controller: _emailController,
+                ),
+
+                const SizedBox(height: 10),
+
+                // passowrd textfield,
+                MyTextField(
+                  hintText: "Password",
+                  obscureText: true,
+                  controller: _passwordController,
+                ),
+
+                const SizedBox(height: 10),
+
+                // confirm passowrd textfield,
+                MyTextField(
+                  hintText: "Confirm Password",
+                  obscureText: true,
+                  controller: _confirmPasswordController,
+                ),
+
+                const SizedBox(height: 15),
+
+                //forgot password,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Forgot Password ?",
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.inversePrimary,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+
+                const SizedBox(height: 15),
+
+                //login button,
+                AuthButton(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  text: "Register",
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  onPressed: _signUp,
+                ),
+
+                const SizedBox(height: 25),
+
+                //don't have an account? Register here,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Already have an account ?",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: Text(
+                        " Login Here ",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Icon(Icons.arrow_circle_right_outlined, size: 18),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -26,7 +26,7 @@ class HomeScreen extends ConsumerWidget {
               onPressed: () async {
                 await authRepository.signOut();
                 // Navigate to auth screen
-                print('Signed out');
+                // print('Signed out');
                 context.go('/');
               },
               child: const Text('Sign Out'),

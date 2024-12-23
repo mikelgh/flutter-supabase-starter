@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class AuthButton extends StatelessWidget {
   final String text;
+  final Color backgroundColor;
+  final Color color;
   final void Function()? onPressed;
 
-  const AuthButton({super.key, required this.text, required this.onPressed});
+  const AuthButton({super.key, required this.text, required this.backgroundColor, required this.color, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class AuthButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: backgroundColor,
           padding: const EdgeInsets.symmetric(vertical: 25.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
@@ -23,7 +25,7 @@ class AuthButton extends StatelessWidget {
           text,
           style: TextStyle(
             fontSize: 16.0,
-            color: Theme.of(context).colorScheme.inversePrimary,
+            color: color,
           ),
         ),
       ),

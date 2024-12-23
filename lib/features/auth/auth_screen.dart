@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'sign_in_screen.dart';
-import 'sign_up_screen.dart';
+import 'package:liquid_swipe/liquid_swipe.dart';
+import 'login_screen.dart';
+import 'register_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -10,20 +11,20 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  bool _isSignIn = true;
-
-  void _toggleAuthMode() {
-    setState(() {
-      _isSignIn = !_isSignIn;
-    });
-  }
+  final _pageController = LiquidController();
 
   @override
   Widget build(BuildContext context) {
-      if (_isSignIn) {
-      return SignInScreen(onTap: _toggleAuthMode);
-    } else {
-      return SignUpScreen(onTap: _toggleAuthMode);
-    }
+    return Scaffold(
+      body: LiquidSwipe(
+        liquidController: _pageController,
+        enableLoop: false,
+        preferDragFromRevealedArea : true,
+        pages: [
+          SignInScreen(onTap: () => _pageController.animateToPage(page: 1)),
+          SignUpScreen(onTap: () => _pageController.animateToPage(page: 0)),
+        ],
+      ),
+    );
   }
 }

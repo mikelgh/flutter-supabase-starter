@@ -23,13 +23,7 @@ final appRouter = GoRouter(
     return null;
   },
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const AuthScreen(),
-    ),
-    GoRoute(
-      path: '/home',
-      builder: (context, state) => const HomeScreen(),
-    ),
+    GoRoute(path: '/', builder: (context, state) => const AuthScreen()),
+    GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
   ],
 );
