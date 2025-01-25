@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
 

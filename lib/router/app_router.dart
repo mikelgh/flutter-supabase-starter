@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import '../core/services/supabase_service.dart';
 import '../core/repositories/auth_repository.dart';
 import '../features/controllers/auth_screen_controller.dart';
-import '../features/screens/home/home_screen.dart';
+import '../features/controllers/home_screen_controller.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
@@ -24,6 +24,6 @@ final appRouter = GoRouter(
   },
   routes: [
     GoRoute(path: '/', builder: (context, state) => AuthScreen()),
-    GoRoute(path: '/home', builder: (context, state) => HomeScreen()),
+    GoRoute(path: '/home', builder: (context, state) => HomeScreenController()),
   ],
 );
