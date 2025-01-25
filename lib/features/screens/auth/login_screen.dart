@@ -3,20 +3,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../core/repositories/auth_repository.dart';
-import '../../core/services/supabase_service.dart';
-import '../components/auth_button.dart';
-import '../components/text_field.dart';
+import '../../../core/repositories/auth_repository.dart';
+import '../../../core/services/supabase_service.dart';
+import '../../components/auth/auth_button.dart';
+import '../../components/auth/text_field.dart';
 
-class SignInScreen extends ConsumerStatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   final void Function()? onTap;
-  const SignInScreen({super.key, required this.onTap});
+  const LoginScreen({super.key, required this.onTap});
 
   @override
-  ConsumerState<SignInScreen> createState() => _SignInScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignInScreenState extends ConsumerState<SignInScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -35,7 +35,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     super.dispose();
   }
 
-  Future<void> _signIn() async {
+  Future<void> _login() async {
     final authRepository = AuthRepository(SupabaseService.client);
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
@@ -134,7 +134,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                   text: "Login",
                   color: Theme.of(context).colorScheme.primary,
-                  onPressed: _signIn,
+                  onPressed: _login,
                 ),
 
                 const SizedBox(height: 25),

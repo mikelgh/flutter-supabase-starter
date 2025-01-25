@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'login_screen.dart';
-import 'register_screen.dart';
+
+import '../screens/auth/login_screen.dart';
+import '../screens/auth/register_screen.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -19,10 +20,10 @@ class _AuthScreenState extends State<AuthScreen> {
       body: LiquidSwipe(
         liquidController: _pageController,
         enableLoop: false,
-        preferDragFromRevealedArea : true,
+        preferDragFromRevealedArea: true,
         pages: [
-          SignInScreen(onTap: () => _pageController.animateToPage(page: 1)),
-          SignUpScreen(onTap: () => _pageController.animateToPage(page: 0)),
+          LoginScreen(onTap: () => _pageController.animateToPage(page: 1)),
+          RegisterScreen(onTap: () => _pageController.animateToPage(page: 0)),
         ],
       ),
     );

@@ -6,7 +6,13 @@ class AuthButton extends StatelessWidget {
   final Color color;
   final void Function()? onPressed;
 
-  const AuthButton({super.key, required this.text, required this.backgroundColor, required this.color, required this.onPressed});
+  const AuthButton({
+    super.key,
+    required this.text,
+    required this.backgroundColor,
+    required this.color,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +27,7 @@ class AuthButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12.0),
           ),
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16.0,
-            color: color,
-          ),
-        ),
+        child: Text(text, style: TextStyle(fontSize: 16.0, color: color)),
       ),
     );
   }

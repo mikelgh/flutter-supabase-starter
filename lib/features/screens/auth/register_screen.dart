@@ -2,22 +2,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// ignore: unused_import
 import 'package:go_router/go_router.dart';
-import '../../core/repositories/auth_repository.dart';
-import '../../core/services/supabase_service.dart';
-import '../components/auth_button.dart';
-import '../components/text_field.dart';
+import '../../../core/repositories/auth_repository.dart';
+import '../../../core/services/supabase_service.dart';
+import '../../components/auth/auth_button.dart';
+import '../../components/auth/text_field.dart';
 
-class SignUpScreen extends ConsumerStatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   final void Function()? onTap;
-  const SignUpScreen({super.key, required this.onTap});
+  const RegisterScreen({super.key, required this.onTap});
 
   @override
-  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<RegisterScreen> createState() => RegisterScreenpScreenState();
 }
 
-class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _usernameController = TextEditingController();
@@ -41,7 +40,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     super.dispose();
   }
 
-  Future<void> _signUp() async {
+  Future<void> _register() async {
     final authRepository = AuthRepository(SupabaseService.client);
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
@@ -176,7 +175,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   text: "Register",
                   color: Theme.of(context).colorScheme.inversePrimary,
-                  onPressed: _signUp,
+                  onPressed: _register,
                 ),
 
                 const SizedBox(height: 25),
