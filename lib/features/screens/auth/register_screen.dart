@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -89,7 +87,7 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -101,7 +99,7 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
                 Icon(
                   Icons.app_registration_rounded,
                   size: 100,
-                  color: Theme.of(context).colorScheme.inversePrimary,
+                  color: Theme.of(context).colorScheme.tertiary,
                 ),
 
                 const SizedBox(height: 15),
@@ -113,7 +111,7 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 3,
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                    color: Theme.of(context).colorScheme.tertiary,
                   ),
                 ),
 
@@ -162,7 +160,7 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
                     Text(
                       "Forgot Password ?",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.inversePrimary,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ],
@@ -172,9 +170,9 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
 
                 //login button,
                 AuthButton(
-                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  backgroundColor: Theme.of(context).colorScheme.tertiary,
                   text: "Register",
-                  color: Theme.of(context).colorScheme.inversePrimary,
+                  color: Theme.of(context).colorScheme.onSecondary,
                   onPressed: _register,
                 ),
 
@@ -195,7 +193,7 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
                       child: Text(
                         " Login Here ",
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

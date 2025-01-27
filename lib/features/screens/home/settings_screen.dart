@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_auth/core/repositories/auth_repository.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/services/supabase_service.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -19,11 +20,17 @@ class SettingsScreen extends ConsumerWidget {
             Text('You logged in as ${user?.email ?? 'User'}'),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () async {
-                // Sign out functionality
-                await authRepository.signOut();
-              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Theme.of(context).buttonTheme.colorScheme?.primary,
+                foregroundColor:
+                    Theme.of(context).buttonTheme.colorScheme?.onPrimary,
+              ),
               child: const Text('Sign Out'),
+              onPressed: () async {
+                await authRepository.signOut();
+                context.go('/');
+              },
             ),
           ],
         ),

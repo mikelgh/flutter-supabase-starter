@@ -19,7 +19,7 @@ class MyTextField extends StatelessWidget {
     return TextField(
       obscureText: obscureText,
       controller: controller,
-      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+      style: TextStyle(color: Theme.of(context).colorScheme.primary),
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -30,13 +30,11 @@ class MyTextField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.inversePrimary,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
         hintText: hintText,
-        hintStyle: TextStyle(
-          color: Theme.of(context).colorScheme.inversePrimary,
-        ),
+        hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       ),
     );
   }

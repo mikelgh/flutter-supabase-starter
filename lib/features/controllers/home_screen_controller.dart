@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../components/common/my_appbar.dart';
-import '../components/home/bottom_navigation_bar.dart'; // Import the bottom navigation bar component
+import '../components/common/bottom_navigation_bar.dart'; // Import the bottom navigation bar component
 import '../screens/home/home_screen.dart';
 import '../screens/home/settings_screen.dart';
 import '../screens/home/profile_screen.dart';

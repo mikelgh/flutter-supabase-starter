@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -66,7 +64,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -78,7 +76,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Icon(
                   Icons.login_rounded,
                   size: 100,
-                  color: Theme.of(context).colorScheme.inversePrimary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
 
                 const SizedBox(height: 15),
@@ -90,7 +88,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     letterSpacing: 3,
-                    color: Theme.of(context).colorScheme.inversePrimary,
+                    color: Theme.of(context).colorScheme.tertiary,
                   ),
                 ),
 
@@ -121,7 +119,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     Text(
                       "Forgot Password ?",
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.inversePrimary,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                   ],
@@ -131,9 +129,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 //login button,
                 AuthButton(
-                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   text: "Login",
-                  color: Theme.of(context).colorScheme.primary,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   onPressed: _login,
                 ),
 
@@ -154,7 +152,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: Text(
                         " Register Here ",
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.inversePrimary,
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

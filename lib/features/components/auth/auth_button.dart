@@ -22,12 +22,12 @@ class AuthButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
-          padding: const EdgeInsets.symmetric(vertical: 25.0),
+          padding: const EdgeInsets.symmetric(vertical: 20.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
           ),
         ),
-        child: Text(text, style: TextStyle(fontSize: 16.0, color: color)),
+        child: Text(text, style: TextStyle(fontSize: 18.0, color: color)),
       ),
     );
   }
