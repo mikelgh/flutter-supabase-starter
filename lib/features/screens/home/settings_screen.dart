@@ -25,6 +25,14 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
+  Future<dynamic> _loading(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authRepository = AuthRepository(SupabaseService.client);
@@ -46,6 +54,9 @@ class SettingsScreen extends ConsumerWidget {
               ),
               child: const Text('Logout'),
               onPressed: () async {
+                // Show loading indicator
+                _loading(context);
+
                 // Sign out and Navigate to login screen
                 await authRepository.signOut();
                 context.go('/');

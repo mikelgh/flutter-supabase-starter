@@ -20,6 +20,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   // Snackbar
   SnackBar floatingSnackBar(String content, SnackBarType snackBarType) {
     final backgroundColor = switch (snackBarType) {
@@ -40,11 +47,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  // Loading circle
+  Future<dynamic> _loading() {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
   }
 
   Future<void> _login() async {
@@ -59,21 +68,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       return;
     }
 
-    final user = await authRepository.signInWithEmailAndPassword(
-      email,
-      password,
-    );
+    // Show loading circle
+    _loading();
 
-    if (user != null) {
-      // Navigate to home screen
-      context.go('/home');
+    try {
+      final user = await authRepository.signInWithEmailAndPassword(
+        email,
+        password,
+      );
+
+      if (user != null) {
+        // Navigate to home screen
+        context.go('/home');
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(floatingSnackBar('Login Success', SnackBarType.success));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          floatingSnackBar('Invalid credentials', SnackBarType.error),
+        );
+      }
+    } catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(floatingSnackBar('Login Success', SnackBarType.success));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        floatingSnackBar('Invalid credentials', SnackBarType.error),
-      );
+      ).showSnackBar(floatingSnackBar('An error occurred', SnackBarType.error));
+    } finally {
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     }
   }
 

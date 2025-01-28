@@ -22,6 +22,15 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
   final _usernameController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _usernameController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
   SnackBar floatingSnackBar(String content, SnackBarType snackBarType) {
     final backgroundColor = switch (snackBarType) {
       SnackBarType.error => Colors.red,
@@ -41,13 +50,13 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _usernameController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
+  // Loading circle
+  Future<dynamic> _loading() {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
   }
 
   Future<void> _register() async {
@@ -74,21 +83,34 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
       return;
     }
 
-    final user = await authRepository.signUpWithEmailAndPassword(
-      email,
-      password,
-    );
+    // Show loading circle
+    _loading();
 
-    if (user != null) {
-      // Navigate to login screen
-      context.go('/');
-      ScaffoldMessenger.of(context).showSnackBar(
-        floatingSnackBar('Successfully signed up', SnackBarType.success),
+    try {
+      final user = await authRepository.signUpWithEmailAndPassword(
+        email,
+        password,
       );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        floatingSnackBar('Invalid credentials', SnackBarType.error),
-      );
+
+      if (user != null) {
+        // Navigate to login screen
+        context.go('/');
+        ScaffoldMessenger.of(context).showSnackBar(
+          floatingSnackBar('Successfully signed up', SnackBarType.success),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          floatingSnackBar('Invalid credentials', SnackBarType.error),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(floatingSnackBar('An error occurred', SnackBarType.error));
+    } finally {
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     }
   }
 
