@@ -6,6 +6,8 @@ import '../../../core/services/supabase_service.dart';
 import '../../components/auth/auth_button.dart';
 import '../../components/auth/text_field.dart';
 
+enum SnackBarType { error, success, info }
+
 class RegisterScreen extends ConsumerStatefulWidget {
   final void Function()? onTap;
   const RegisterScreen({super.key, required this.onTap});
@@ -20,12 +22,22 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
   final _usernameController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  SnackBar floatingSnackBar(String content, backgroundColor) {
+  SnackBar floatingSnackBar(String content, SnackBarType snackBarType) {
+    final backgroundColor = switch (snackBarType) {
+      SnackBarType.error => Colors.red,
+      SnackBarType.success => Colors.green,
+      SnackBarType.info => Colors.blue,
+    };
     return SnackBar(
       content: Text(content),
-      backgroundColor: backgroundColor,
       behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(25),
       showCloseIcon: true,
+      elevation: 1,
+      duration: const Duration(seconds: 3),
+      dismissDirection: DismissDirection.horizontal,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      backgroundColor: backgroundColor,
     );
   }
 
@@ -49,16 +61,16 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
         password.isEmpty ||
         username.isEmpty ||
         confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(floatingSnackBar('Please fill , all fields', Colors.red));
+      ScaffoldMessenger.of(context).showSnackBar(
+        floatingSnackBar('Please fill all fields', SnackBarType.error),
+      );
       return;
     }
 
     if (password != confirmPassword) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(floatingSnackBar('Passwords do , not match', Colors.red));
+      ScaffoldMessenger.of(context).showSnackBar(
+        floatingSnackBar('Passwords do , not match', SnackBarType.info),
+      );
       return;
     }
 
@@ -68,19 +80,15 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
     );
 
     if (user != null) {
-      // Navigate to home screen
-      // print('Signed up: ${user.email}');
-      ScaffoldMessenger.of(context).showSnackBar(
-        floatingSnackBar(
-          'Successfully signed up',
-          Theme.of(context).colorScheme.inversePrimary,
-        ),
-      );
+      // Navigate to login screen
       context.go('/');
+      ScaffoldMessenger.of(context).showSnackBar(
+        floatingSnackBar('Successfully signed up', SnackBarType.success),
+      );
     } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(floatingSnackBar('Invalid credentials', Colors.red));
+      ScaffoldMessenger.of(context).showSnackBar(
+        floatingSnackBar('Invalid credentials', SnackBarType.error),
+      );
     }
   }
 

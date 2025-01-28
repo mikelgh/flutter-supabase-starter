@@ -6,6 +6,8 @@ import '../../../core/services/supabase_service.dart';
 import '../../components/auth/auth_button.dart';
 import '../../components/auth/text_field.dart';
 
+enum SnackBarType { error, success, info }
+
 class LoginScreen extends ConsumerStatefulWidget {
   final void Function()? onTap;
   const LoginScreen({super.key, required this.onTap});
@@ -18,11 +20,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  SnackBar floatingSnackBar(String content) {
+  // Snackbar
+  SnackBar floatingSnackBar(String content, SnackBarType snackBarType) {
+    final backgroundColor = switch (snackBarType) {
+      SnackBarType.error => Colors.red,
+      SnackBarType.success => Colors.green,
+      SnackBarType.info => Colors.blue,
+    };
     return SnackBar(
       content: Text(content),
       behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(25),
       showCloseIcon: true,
+      elevation: 1,
+      duration: const Duration(seconds: 3),
+      dismissDirection: DismissDirection.horizontal,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      backgroundColor: backgroundColor,
     );
   }
 
@@ -39,9 +53,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(floatingSnackBar('Please fill all fields'));
+      ScaffoldMessenger.of(context).showSnackBar(
+        floatingSnackBar('Please fill all fields', SnackBarType.error),
+      );
       return;
     }
 
@@ -52,12 +66,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     if (user != null) {
       // Navigate to home screen
-      // print('Signed in: ${user.email}');
       context.go('/home');
-    } else {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(floatingSnackBar('Invalid credentials'));
+      ).showSnackBar(floatingSnackBar('Login Success', SnackBarType.success));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        floatingSnackBar('Invalid credentials', SnackBarType.error),
+      );
     }
   }
 
@@ -72,7 +88,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                //logo
+                // logo
                 Icon(
                   Icons.login_rounded,
                   size: 100,
@@ -81,7 +97,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 const SizedBox(height: 15),
 
-                //app name,
+                // app name,
                 Text(
                   'L O G I N',
                   style: TextStyle(

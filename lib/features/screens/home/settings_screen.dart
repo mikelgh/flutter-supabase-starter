@@ -7,6 +7,24 @@ import '../../../core/services/supabase_service.dart';
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> _snackbar(
+    BuildContext context,
+  ) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('See you later!'),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(25),
+        showCloseIcon: true,
+        elevation: 1,
+        duration: const Duration(seconds: 3),
+        dismissDirection: DismissDirection.horizontal,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        backgroundColor: Colors.blueAccent,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authRepository = AuthRepository(SupabaseService.client);
@@ -26,10 +44,14 @@ class SettingsScreen extends ConsumerWidget {
                 foregroundColor:
                     Theme.of(context).buttonTheme.colorScheme?.onPrimary,
               ),
-              child: const Text('Sign Out'),
+              child: const Text('Logout'),
               onPressed: () async {
+                // Sign out and Navigate to login screen
                 await authRepository.signOut();
                 context.go('/');
+
+                // Show snackbar
+                _snackbar(context);
               },
             ),
           ],
