@@ -78,7 +78,7 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
 
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
-        floatingSnackBar('Passwords do , not match', SnackBarType.info),
+        floatingSnackBar('Passwords do not match', SnackBarType.error),
       );
       return;
     }
@@ -87,29 +87,20 @@ class RegisterScreenpScreenState extends ConsumerState<RegisterScreen> {
     _loading();
 
     try {
-      final user = await authRepository.signUpWithEmailAndPassword(
-        email,
-        password,
-      );
-
-      if (user != null) {
-        // Navigate to login screen
-        context.go('/');
+      await authRepository.signUpWithEmailAndPassword(email, password);
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           floatingSnackBar('Successfully signed up', SnackBarType.success),
         );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          floatingSnackBar('Invalid credentials', SnackBarType.error),
-        );
+        Navigator.of(context).pop();
+        context.go('/home');
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(floatingSnackBar('An error occurred', SnackBarType.error));
-    } finally {
-      if (mounted) {
+      if (context.mounted) {
         Navigator.of(context).pop();
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(floatingSnackBar(e.toString(), SnackBarType.error));
       }
     }
   }
