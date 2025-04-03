@@ -31,9 +31,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      title: 'AI 智能笔记本',
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
-      theme: lightMode,
+      theme: lightMode.copyWith(
+        // 添加一些启动屏幕可能需要的特殊样式
+        progressIndicatorTheme: const ProgressIndicatorThemeData(
+          color: Colors.white,
+        ),
+        iconTheme: const IconThemeData(color: Colors.deepPurple),
+      ),
       darkTheme: darkMode,
     );
   }
