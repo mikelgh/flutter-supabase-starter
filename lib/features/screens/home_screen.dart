@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'notes/notes_screen.dart';
 import 'editor/editor_screen.dart';
 import 'ai_assistant/ai_assistant_screen.dart';
@@ -37,6 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 // 实现搜索功能
               },
             ),
+          IconButton(
+            icon: const Icon(Icons.checklist),
+            tooltip: '待办事项',
+            onPressed: () {
+              // 导航到Todo页面
+              context.go('/todo');
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.account_circle_outlined),
             onPressed: () {
