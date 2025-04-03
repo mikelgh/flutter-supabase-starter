@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
+import 'package:liquid_swipe/liquid_swipe.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
